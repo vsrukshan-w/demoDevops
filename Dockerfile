@@ -1,4 +1,10 @@
-FROM ubuntu:latest
-LABEL authors="vsruk"
+FROM openjdk:17
+LABEL maintainer="viman.rukshan@mail.com"
 
-ENTRYPOINT ["top", "-b"]
+EXPOSE 8080
+
+WORKDIR /app
+
+COPY ./build/libs/demoDevops-0.0.1-SNAPSHOT.jar /app/demoDevops-0.0.1-SNAPSHOT.jar
+
+ENTRYPOINT ["java","-jar","/app/demoDevops-0.0.1-SNAPSHOT.jar"]
