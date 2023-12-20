@@ -2,31 +2,24 @@ pipeline {
     agent any
 
     stages {
-
-        stage('version check') {
+        stage('Stop Existing Container') {
             steps {
                 script {
-                    bat 'java -version'
-                }
-            }
-        }
-        stage('Build') {
-            steps {
-                script {
-                    bat './gradlew clean build'
+                    bat 'docker stop $(docker ps -aq --filter "name=^demo-devops")'
+                    bat 'docker rm $(docker ps -aq --filter "name=^demo-devops")'
                 }
             }
         }
 
-        stage('Create Docker image') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    bat 'docker build -t demo-devops:latest .'
+                    dockerImage = docker.build("demo-devops:latest", windowsOptions: '--memory=8GB')
                 }
             }
         }
 
-        stage('Deploy Docker container Locally') {
+        stage('Run Docker Container') {
             steps {
                 script {
                     bat 'docker run -p 8080:8080 demo-devops:latest'
