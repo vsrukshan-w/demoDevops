@@ -2,30 +2,37 @@ pipeline {
     agent any
 
     stages {
-        stage('Stop Existing Container') {
+        stage('Stop and Remove Existing Container') {
             steps {
-                powershell {
-                    docker ps -q --filter "name=^demo-devops" | ForEach-Object { docker stop $_ }
-                    docker ps -aq --filter "status=exited" --filter "name=^demo-devops" | ForEach-Object { docker rm $_ }
+                script {
+                    bat 'docker stop demo-devops'
+                    bat 'docker rm demo-devops'
                 }
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Remove Existing Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("demo-devops:latest", windowsOptions: '--memory=2GB')
+                    bat 'docker rmi demo-devops'
                 }
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Build New Docker Image') {
             steps {
                 script {
-                    bat 'docker run -p 8080:8080 demo-devops:latest'
+                    bat 'docker build -t demo-devops .'
+                }
+            }
+        }
+
+        stage('Run New Container') {
+            steps {
+                script {
+                    bat 'docker run -d -p 8080:8080 --name demo-devops demo-devops'
                 }
             }
         }
     }
 }
-
