@@ -1,7 +1,17 @@
 pipeline {
     agent any
-
+     tools {
+        jdk 'Java17'
+    }
     stages {
+
+        stage('version check') {
+            steps {
+                script {
+                    bat 'java -version'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 script {
