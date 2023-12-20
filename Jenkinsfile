@@ -5,8 +5,8 @@ pipeline {
         stage('Stop Existing Container') {
             steps {
                 script {
-                    bat 'docker stop $(docker ps -aq --filter "name=^demo-devops")'
-                    bat 'docker rm $(docker ps -aq --filter "name=^demo-devops")'
+                    bat 'docker ps -q --filter "name=^demo-devops" | ForEach-Object { docker stop $_ }'
+                    bat 'docker ps -aq --filter "status=exited" --filter "name=^demo-devops" | ForEach-Object { docker rm $_ }'
                 }
             }
         }
@@ -14,7 +14,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("demo-devops:latest", windowsOptions: '--memory=8GB')
+                    dockerImage = docker.build("demo-devops:latest", windowsOptions: '--memory=2GB')
                 }
             }
         }
