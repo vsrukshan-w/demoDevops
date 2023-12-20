@@ -4,9 +4,9 @@ pipeline {
     stages {
         stage('Stop Existing Container') {
             steps {
-                script {
-                    bat 'docker ps -q --filter "name=^demo-devops" | ForEach-Object { docker stop $_ }'
-                    bat 'docker ps -aq --filter "status=exited" --filter "name=^demo-devops" | ForEach-Object { docker rm $_ }'
+                powershell {
+                    docker ps -q --filter "name=^demo-devops" | ForEach-Object { docker stop $_ }
+                    docker ps -aq --filter "status=exited" --filter "name=^demo-devops" | ForEach-Object { docker rm $_ }
                 }
             }
         }
@@ -28,3 +28,4 @@ pipeline {
         }
     }
 }
+
