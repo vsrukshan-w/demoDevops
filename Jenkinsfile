@@ -22,8 +22,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    echo 'Building Spring boot app...'
-                    powershell './gradlew clean build'
+                    echo 'Testing Spring boot app...'
+                    powershell './gradlew clean test'
                 }
             }
             post {
