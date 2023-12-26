@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building Spring boot app...'
-                    powershell './gradlew clean build'
+                    powershell './gradlew clean build --no-daemon'
                 }
             }
         }
