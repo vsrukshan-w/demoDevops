@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     echo 'Testing Spring boot app...'
-                    powershell './gradlew clean test'
+                    powershell './gradlew clean test -i --no-daemon'
                 }
             }
             post {
