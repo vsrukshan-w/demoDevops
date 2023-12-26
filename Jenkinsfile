@@ -1,19 +1,41 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'windows'
+        }
+    }
 
     stages {
 
+        stage('checkout') {
+            steps {
+                echo 'Getting latest source code...'
+                checkout scm
+            }
+        }
 
-        stage('Build New Docker Image and Run Container') {
+        stage('Build') {
             steps {
                 script {
-                    echo 'Building new Docker image...'
-                    bat 'docker build -t demo-devops .'
-
-                    echo 'Running new container...'
-                    bat 'docker run -d -p 8080:8080 --name demo-devops demo-devops'
+                    echo 'Building Spring boot app...'
+                    powershell './gradlew clean build'
                 }
             }
         }
+
+        stage('Test') {
+            steps {
+                script {
+                    echo 'Building Spring boot app...'
+                    powershell './gradlew clean build'
+                }
+            }
+            post {
+                always {
+                    junit '**/build/test-results/test/*.xml'
+                }
+            }
+        }
+
     }
 }
