@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = controller.class) // Isolates the controller for testing
+@WebMvcTest(controllers = controller.class)
 public class ControllerTest {
 
 
