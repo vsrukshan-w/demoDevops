@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonarqube-server') {
-                        powershell './gradlew -X sonarqube --no-daemon'
+                        powershell './gradlew -d sonarqube --no-daemon'
                     }
                 }
             }
