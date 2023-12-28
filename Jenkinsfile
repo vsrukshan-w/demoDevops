@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonarqube-server') {
-                        bat '''${scannerHome}/bin/sonar-scanner -Dsonar.projectName=demoDevops -Dsonar.java.binaries=. -Dsonar.projectKey=demoDevops'''
+                        powershell './gradlew sonarqube --no-daemon'
                     }
                 }
             }
